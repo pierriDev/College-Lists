@@ -12,10 +12,17 @@ struct person {
     // struct person *before;
 };
 
-typedef struct person PEOPLE;
-struct person *head = NULL;
+struct header {
+    struct person *first;
+    struct person *last;
+};
 
+typedef struct person PEOPLE;
+
+// struct person *head = NULL;
 struct person people[MAX_ARRAY_SIZE];
+
+struct header header;
 
 
 void newDataLinkedListBeggining(char newName, char newRg) {
@@ -25,8 +32,11 @@ void newDataLinkedListBeggining(char newName, char newRg) {
     }
     newNode->name = newName;
     newNode->rg = newRg;
-    newNode->next = head;
-    head = newNode;
+    newNode->next = header.first;
+    header.first = newNode;
+    if(header.last == NULL){
+        header.last = newNode;
+    }
 }
 
 void newDataLinkedListEnd(char newName, char newRg) {
@@ -36,19 +46,15 @@ void newDataLinkedListEnd(char newName, char newRg) {
     }
     newNode->name = newName;
     newNode->rg = newRg;
-    if(head == NULL){
-        head = newNode;
+    if(header.first == NULL){
+        header.first = newNode;
     }
-    else{
-        struct person *lastNode = head;
-
-        while(lastNode->next != NULL){
-            lastNode = lastNode->next;
-        }
-
+    if(header.last == NULL){
+        header.last = newNode;
+    }else{
+        struct person *lastNode = header.last;
         lastNode->next = newNode;
     }
-
 }
 
 void newDataLinkedListRandom(char newName, char newRg, int position) {
@@ -60,8 +66,8 @@ void newDataLinkedListRandom(char newName, char newRg, int position) {
     newNode->name = newName;
     newNode->rg = newRg;
 
-    struct person *helper = head;
-    struct person *secondHelper = head;
+    struct person *helper = header.first;
+    struct person *secondHelper = header.first;
     for(i=0; i<(position-1); i++){
         helper = helper->next;
     }
@@ -69,7 +75,12 @@ void newDataLinkedListRandom(char newName, char newRg, int position) {
         secondHelper = helper->next;
     }
     helper->next = newNode;
-    newNode->next = secondHelper;
+    if(secondHelper == NULL){
+        header.last = newNode;
+        newNode->next = NULL;
+    }else{
+        newNode->next = secondHelper;
+    }
   
 }
 
@@ -140,7 +151,6 @@ void newData(int action){
     if(action == 1){
         newDataArrayBeggining(newName, newRg);
         newDataLinkedListBeggining(newName, newRg);
-        // newDataLinkedListBeggining(&head, newName, newRg);
     }else if(action == 2){
         newDataArrayEnd(newName, newRg);
         newDataLinkedListEnd(newName, newRg);
@@ -171,7 +181,7 @@ void displayList(){
     printf("\n|---------------------------------------------|\n\n\n\n");
 
 
-    struct person *temp = head;
+    struct person *temp = header.first;
 
     //iterate the entire linked list and print the data
     printf("\n\n\n|---------------------------------------------|\n");
@@ -217,6 +227,7 @@ int main() {
                 break;
             
             default:
+                printf("ERROR");
                 break;
         }
     }while(action != 11);
