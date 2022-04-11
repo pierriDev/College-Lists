@@ -2,7 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-const int MAX_ARRAY_SIZE = 100000000;
+const int MAX_ARRAY_SIZE = 10;
+// const int MAX_ARRAY_SIZE = 100000000;
 
 struct person {
     char *name;
@@ -142,12 +143,10 @@ void newData(int action){
     int position;
     fflush(stdin);
     printf("\n\n\nType the new Name: ");
-    // scanf("%d", &newName);
     scanf("%s", newName);
     fflush(stdin);
     printf("\nType the new RG: ");
     scanf("%s", newRg);
-    // scanf("%s", newRg);
     if(action == 1){
         newDataArrayBeggining(newName, newRg);
         newDataLinkedListBeggining(newName, newRg);
@@ -196,9 +195,6 @@ void readFile(int option){
         default:
             printf("ERROR");
             break;
-        
-        
-
    }
 
 
@@ -246,6 +242,131 @@ void readFile(int option){
     printf("|--------------------------------------------------------|\n");
 }
 
+void deleteAtEnd() {
+    int i;
+
+    //REMOVING FROM ARRAY
+    if(people[1].name == NULL && people[1].rg == NULL){
+        people[0].name = NULL;
+        people[0].rg = NULL;
+
+    }else{
+        for(i = 0; i < MAX_ARRAY_SIZE; i++){
+            if(people[i+1].name == NULL && people[i+1].rg == NULL){
+                people[i].name = NULL;
+                people[i].rg = NULL;
+                break;
+            }
+        }
+    }
+
+    //REMOVING FROM LINKED LIST
+    struct person *temp = header.first;
+    struct person *lastTemp = header.last;
+    while(temp != NULL){
+        if(temp->next == lastTemp){
+            temp->next = NULL;
+            header.last = temp;
+            free(lastTemp);
+        }
+        temp = temp->next;
+    }
+
+    printf("\n\n\n|---------------------------------------------|\n");
+    printf("| DELETED WITH SUCCESS");
+    printf("\n|---------------------------------------------|\n\n\n\n");
+}
+
+void deleteAtBeggining() {
+    int i;
+    //REMOVING FROM ARRAY
+    for(i = 0; i < MAX_ARRAY_SIZE; i++){
+        if(people[i+1].name == NULL && people[i+1].rg == NULL){
+            people[i].name = NULL;
+            people[i].rg = NULL;
+            break;
+        }else{
+            people[i].name = people[i+1].name;
+            people[i].rg = people[i+1].rg;
+        }
+    }
+
+    //REMOVING FROM LINKED LIST
+    struct person *temp = header.first;
+    header.first = temp->next;
+    free(temp);
+
+    printf("\n\n\n|---------------------------------------------|\n");
+    printf("| DELETED WITH SUCCESS");
+    printf("\n|---------------------------------------------|\n\n\n\n");
+}
+
+void deleteAtPosition(position) {
+    //REMOVE FROM ARRAY
+    int i;
+
+    for(i = 0; i < MAX_ARRAY_SIZE; i++){
+        if(i >= position){
+            people[i].name = people[i+1].name;
+            people[i].rg = people[i+1].rg;
+        }
+    }
+
+    //REMOVE FROM LINKED LIST 
+    struct person *helper = header.first;
+    struct person *secondHelper = header.first;
+    for(i=0; i<(position-1); i++){
+        helper = helper->next;
+    }
+    for(i=0; i<position; i++){
+        secondHelper = helper->next;
+    }
+    helper->next = secondHelper->next;
+
+
+    printf("\n\n\n|---------------------------------------------|\n");
+    printf("| DELETED WITH SUCCESS");
+    printf("\n|---------------------------------------------|\n\n\n\n");
+}
+
+void searchByRg(char *searchRg){
+    int i;
+    int n = 0;
+    int comp;
+    for(i = 0; i < MAX_ARRAY_SIZE; i++){        
+        if(people[i].name != NULL && people[i].rg != NULL){
+            comp=strcmp(people[i].rg,searchRg);  
+            if(comp==0){
+                printf("\n\n\n|---------------------------------------------|\n");
+                printf("|ARRAY: ");
+                printf("\n| Name: %s", people[i].name);
+                printf("\n| Rg: %s", people[i].rg);
+                printf("\n| Position: %d", i);
+                printf("\n|---------------------------------------------|");
+            }
+        }else{
+            break;
+        }
+    }
+
+    struct person *temp = header.first;
+    while(temp != NULL){
+        comp=strcmp(temp->rg,searchRg);  
+            
+        if(comp==0){
+            printf("\n\n\n|---------------------------------------------|\n");
+            printf("|Linked List: ");
+            printf("\n| Name: %s", temp->name);
+            printf("\n| Rg: %s", temp->rg);
+            printf("\n| Position: %d", n);
+            printf("\n|---------------------------------------------|");
+        }
+        temp = temp->next;
+        n++;
+    }
+    printf("\n\n");
+}
+
 void displayList(){
     int i;
     int n =0;
@@ -284,12 +405,19 @@ void displayList(){
 int main() {
     int action;
     int file;
+    int position;
+    char searchRg[50];
+
     do{
         printf("|--------------------------------------------------------|\n");
         printf("|           SELECT THE WANTED OPTION                     |\n");
         printf("| 1 : Insert data at the beggining of the list           |\n");
         printf("| 2 : Insert data at the end of the list                 |\n");
         printf("| 3 : Insert data at a random position of the list       |\n");
+        printf("| 4 : Delete data at the beggining of the list           |\n");
+        printf("| 5 : Delete data at the end of the list                 |\n");
+        printf("| 6 : Delete data at a random position of the list       |\n");
+        printf("| 7 : Search by RG                                       |\n");
         printf("| 8 : show the entire List                               |\n");
         printf("| 10: Read list from a file                              |\n");
         printf("|--------------------------------------------------------|\n");
@@ -304,6 +432,30 @@ int main() {
                 break;
             case 3:
                 newData(action);
+                break;
+            case 4:
+                deleteAtBeggining();
+                break;
+            case 5:
+                deleteAtEnd();
+                break;
+            case 6:
+                printf("\n\n");
+                printf("|--------------------------------------------------------|\n");
+                printf("|               CHOOSE THE POSITION                      |\n");
+                printf("|--------------------------------------------------------|\n");
+                printf(" Select an Option: ");
+                scanf("%d", &position);
+                deleteAtPosition(position);
+                break;
+            case 7:
+                printf("\n\n");
+                printf("|--------------------------------------------------------|\n");
+                printf("|                   SEARCH BY RG                         |\n");
+                printf("|--------------------------------------------------------|\n");
+                printf("Type the RG: ");
+                scanf("%s", searchRg);
+                searchByRg(searchRg);
                 break;
             case 8:
                 displayList();
