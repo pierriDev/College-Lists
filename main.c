@@ -386,8 +386,8 @@ void deleteAtEnd()
     cpu_time_used_array = ((double)(end_array - start_array)) / CLOCKS_PER_SEC;
     cpu_time_used_list = ((double)(end_list - start_list)) / CLOCKS_PER_SEC;
 
-    printf("\nTime taken to add On Array: %f seconds\n", cpu_time_used_array);
-    printf("\nTime taken to add On Linked List: %f seconds\n", cpu_time_used_list);
+    printf("\nTime taken to delete On Array: %f seconds\n", cpu_time_used_array);
+    printf("\nTime taken to delete On Linked List: %f seconds\n", cpu_time_used_list);
 }
 
 void deleteAtBeggining()
@@ -428,8 +428,8 @@ void deleteAtBeggining()
     cpu_time_used_array = ((double)(end_array - start_array)) / CLOCKS_PER_SEC;
     cpu_time_used_list = ((double)(end_list - start_list)) / CLOCKS_PER_SEC;
 
-    printf("\nTime taken to add On Array: %f seconds\n", cpu_time_used_array);
-    printf("\nTime taken to add On Linked List: %f seconds\n", cpu_time_used_list);
+    printf("\nTime taken to delete On Array: %f seconds\n", cpu_time_used_array);
+    printf("\nTime taken to delete On Linked List: %f seconds\n", cpu_time_used_list);
 }
 
 void deleteAtPosition(position)
@@ -472,8 +472,8 @@ void deleteAtPosition(position)
     cpu_time_used_array = ((double)(end_array - start_array)) / CLOCKS_PER_SEC;
     cpu_time_used_list = ((double)(end_list - start_list)) / CLOCKS_PER_SEC;
 
-    printf("\nTime taken to add On Array: %f seconds\n", cpu_time_used_array);
-    printf("\nTime taken to add On Linked List: %f seconds\n", cpu_time_used_list);
+    printf("\nTime taken to delete On Array: %f seconds\n", cpu_time_used_array);
+    printf("\nTime taken to delete On Linked List: %f seconds\n", cpu_time_used_list);
 }
 
 void searchByRg(char *searchRg)
@@ -481,6 +481,12 @@ void searchByRg(char *searchRg)
     int i;
     int n = 0;
     int comp;
+    clock_t start_list, end_list, start_array, end_array;
+    double cpu_time_used_list = 0, cpu_time_used_array = 0;
+
+    
+
+    start_array = clock();
     for (i = 0; i < MAX_ARRAY_SIZE; i++)
     {
         if (people[i].name != NULL && people[i].rg != NULL)
@@ -501,8 +507,11 @@ void searchByRg(char *searchRg)
             break;
         }
     }
+    end_array = clock();
 
     struct person *temp = header.first;
+    start_list = clock();
+
     while (temp != NULL)
     {
         comp = strcmp(temp->rg, searchRg);
@@ -519,7 +528,13 @@ void searchByRg(char *searchRg)
         temp = temp->next;
         n++;
     }
-    printf("\n\n");
+    end_list = clock();
+
+    cpu_time_used_array = ((double)(end_array - start_array)) / CLOCKS_PER_SEC;
+    cpu_time_used_list = ((double)(end_list - start_list)) / CLOCKS_PER_SEC;
+
+    printf("\nTime taken to search On Array: %f seconds\n", cpu_time_used_array);
+    printf("\nTime taken to search On Linked List: %f seconds\n", cpu_time_used_list);
 }
 
 void WriteInFile()
