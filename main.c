@@ -2,8 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-const int MAX_ARRAY_SIZE = 10;
-// const int MAX_ARRAY_SIZE = 100000000;
+const int MAX_ARRAY_SIZE = 100000000;
 
 struct person {
     char *name;
@@ -367,6 +366,24 @@ void searchByRg(char *searchRg){
     printf("\n\n");
 }
 
+void WriteInFile(){
+    FILE * out_file;
+
+    out_file = fopen("files/WrittenFile.txt", "w");
+
+    struct person *temp = header.first;
+    while(temp != NULL){
+        fprintf(out_file, "%s,%s\n", temp->name, temp->rg);
+
+        temp = temp->next;
+    }
+    fclose(out_file);
+
+    printf("\n\n\n|---------------------------------------------|\n");
+    printf("| DONE");
+    printf("\n|---------------------------------------------|\n\n\n\n");
+}
+
 void displayList(){
     int i;
     int n =0;
@@ -418,8 +435,10 @@ int main() {
         printf("| 5 : Delete data at the end of the list                 |\n");
         printf("| 6 : Delete data at a random position of the list       |\n");
         printf("| 7 : Search by RG                                       |\n");
-        printf("| 8 : show the entire List                               |\n");
+        printf("| 8 : Show the entire List                               |\n");
+        printf("| 9 : Copy list to external file                         |\n");
         printf("| 10: Read list from a file                              |\n");
+        printf("| 11: Close                                              |\n");
         printf("|--------------------------------------------------------|\n");
         printf(" Select an Option: ");
         scanf("%d", &action);
@@ -460,6 +479,9 @@ int main() {
             case 8:
                 displayList();
                 break;
+            case 9:
+                WriteInFile();
+                break;
             case 10:
                 printf("\n\n");
                 printf("|--------------------------------------------------------|\n");
@@ -478,7 +500,6 @@ int main() {
                 break;
             
             default:
-                printf("ERROR");
                 break;
         }
     }while(action != 11);
