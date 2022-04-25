@@ -29,6 +29,7 @@ void newDataLinkedListBeggining(char newName[50], char newRg[50])
 {
     clock_t start, end;
     double cpu_time_used = 0;
+    int list_movimentation = 0;
 
     start = clock();
 
@@ -49,8 +50,10 @@ void newDataLinkedListBeggining(char newName[50], char newRg[50])
 
     end = clock();
     cpu_time_used = ((double)(end - start)) / CLOCKS_PER_SEC;
+    list_movimentation++;
 
     printf("\nTime taken to add On Linked List: %f seconds\n", cpu_time_used);
+    printf("\nMovimentation on Linked List: %d\n", list_movimentation);
 }
 
 void newDataLinkedListEnd(char *newName, char *newRg)
@@ -60,6 +63,7 @@ void newDataLinkedListEnd(char *newName, char *newRg)
     double cpu_time_used = 0;
 
     start = clock();
+    int list_movimentation = 0;
 
     struct person *newNode = malloc(sizeof(struct person));
     if (newNode == NULL)
@@ -85,8 +89,10 @@ void newDataLinkedListEnd(char *newName, char *newRg)
 
     end = clock();
     cpu_time_used = ((double)(end - start)) / CLOCKS_PER_SEC;
+    list_movimentation++;
 
     printf("\nTime taken to add On Linked List: %f seconds\n", cpu_time_used);
+    printf("\nMovimentation on Linked List: %d\n", list_movimentation);
 }
 
 void newDataLinkedListRandom(char *newName, char *newRg, int position)
@@ -96,6 +102,9 @@ void newDataLinkedListRandom(char *newName, char *newRg, int position)
     clock_t start, end;
     double cpu_time_used = 0;
 
+    int list_comparation = 0;
+    int list_movimentation = 0;
+
     start = clock();
     struct person *newNode = malloc(sizeof(struct person));
     if (newNode == NULL)
@@ -104,31 +113,38 @@ void newDataLinkedListRandom(char *newName, char *newRg, int position)
     }
     newNode->name = strdup(newName);
     newNode->rg = strdup(newRg);
+    list_movimentation++;
 
     struct person *helper = header.first;
     struct person *secondHelper = header.first;
     for (i = 0; i < (position - 1); i++)
     {
         helper = helper->next;
+        list_comparation++;
     }
     for (i = 0; i < position; i++)
     {
         secondHelper = helper->next;
+        list_comparation++;
     }
     helper->next = newNode;
     if (secondHelper == NULL)
     {
         header.last = (newNode);
         newNode->next = NULL;
+        list_movimentation++;
     }
     else
     {
         newNode->next = secondHelper;
+        list_movimentation++;
     }
     end = clock();
     cpu_time_used = ((double)(end - start)) / CLOCKS_PER_SEC;
 
     printf("\nTime taken to add On Linked List: %f seconds\n", cpu_time_used);
+    printf("\nComparation on Linked List: %d\n", list_comparation);
+    printf("\nMovimentation on Linked List: %d\n", list_movimentation);
 }
 
 void newDataArrayBeggining(char *newName, char *newRg)
@@ -139,6 +155,8 @@ void newDataArrayBeggining(char *newName, char *newRg)
 
     start = clock();
     int i = 0;
+    int array_comparation = 0;
+    int array_movimentation = 0;
     if (people[0].name != NULL && people[0].rg != NULL)
     {
 
@@ -148,6 +166,8 @@ void newDataArrayBeggining(char *newName, char *newRg)
             {
                 people[i + 1].name = strdup(people[i].name);
                 people[i + 1].rg = strdup(people[i].rg);
+                array_movimentation++;
+                array_comparation++;
             }
         }
         people[0].name = strdup(newName);
@@ -157,24 +177,31 @@ void newDataArrayBeggining(char *newName, char *newRg)
     {
         people[i].name = strdup(newName);
         people[i].rg = strdup(newRg);
+        array_comparation++;
+        array_movimentation++;
     }
     end = clock();
     cpu_time_used = ((double)(end - start)) / CLOCKS_PER_SEC;
 
     printf("\nTime taken to add On Array: %f seconds\n", cpu_time_used);
+    printf("\nComparation on Array: %d\n", array_comparation);
+    printf("\nMovimentation on Array: %d\n", array_movimentation);
 }
 
 void newDataArrayEnd(char *newName, char *newRg)
 {
     clock_t start, end;
     double cpu_time_used = 0;
-
+    int array_comparation = 0;
+    int array_movimentation = 0;
     start = clock();
     int i;
     if (people[0].name == NULL && people[0].rg == NULL)
     {
         people[0].name = strdup(newName);
         people[0].rg = strdup(newRg);
+        array_comparation++;
+        array_movimentation++;
     }
     else
     {
@@ -184,14 +211,18 @@ void newDataArrayEnd(char *newName, char *newRg)
             {
                 people[i].name = strdup(newName);
                 people[i].rg = strdup(newRg);
+                array_movimentation++;
                 break;
             }
+            array_comparation++;
         }
     }
     end = clock();
     cpu_time_used = ((double)(end - start)) / CLOCKS_PER_SEC;
 
     printf("\nTime taken to add On Array: %f seconds\n", cpu_time_used);
+    printf("\nComparation on Array: %d\n", array_comparation);
+    printf("\nMovimentation on Array: %d\n", array_movimentation);
 }
 
 void newDataArrayPosition(char *newName, char *newRg, int position)
@@ -199,14 +230,17 @@ void newDataArrayPosition(char *newName, char *newRg, int position)
     int i;
     clock_t start, end;
     double cpu_time_used = 0;
+    int array_comparation = 0;
+    int array_movimentation = 0;
 
-    printf("\nTime taken to add On Array: %f seconds\n", cpu_time_used);
     for (i = (MAX_ARRAY_SIZE - 1); i >= position; i--)
     {
         if (people[i].name != NULL && people[i].rg != NULL)
         {
             people[i + 1].name = strdup(people[i].name);
             people[i + 1].rg = strdup(people[i].rg);
+            array_movimentation++;
+            array_comparation++;
         }
     }
 
@@ -216,6 +250,10 @@ void newDataArrayPosition(char *newName, char *newRg, int position)
     start = clock();
     end = clock();
     cpu_time_used = ((double)(end - start)) / CLOCKS_PER_SEC;
+    printf("\nTime taken to add On Array: %f seconds\n", cpu_time_used);
+
+    printf("\nComparation on Array: %d\n", array_comparation);
+    printf("\nMovimentation on Array: %d\n", array_movimentation);
 }
 
 void newData(int action)
@@ -263,7 +301,6 @@ void readFile(int option)
         file = fopen("files/NomeRG10.txt", "r");
         break;
     case 2:
-        printf("HERE");
         file = fopen("files/NomeRG50.txt", "r");
         break;
     case 3:
@@ -340,6 +377,9 @@ void deleteAtEnd()
     clock_t start_list, end_list, start_array, end_array;
     double cpu_time_used_list = 0, cpu_time_used_array = 0;
 
+    int array_comparation = 0;
+    int list_comparation = 0;
+
     start_array = clock();
 
     // REMOVING FROM ARRAY
@@ -347,6 +387,7 @@ void deleteAtEnd()
     {
         people[0].name = NULL;
         people[0].rg = NULL;
+        array_comparation++;
     }
     else
     {
@@ -358,6 +399,7 @@ void deleteAtEnd()
                 people[i].rg = NULL;
                 break;
             }
+            array_comparation++;
         }
     }
     end_array = clock();
@@ -376,6 +418,7 @@ void deleteAtEnd()
             free(lastTemp);
         }
         temp = temp->next;
+        list_comparation++;
     }
     end_list = clock();
 
@@ -388,6 +431,9 @@ void deleteAtEnd()
 
     printf("\nTime taken to delete On Array: %f seconds\n", cpu_time_used_array);
     printf("\nTime taken to delete On Linked List: %f seconds\n", cpu_time_used_list);
+
+    printf("\nComparation on Array: %d\n", array_comparation);
+    printf("\nComparation on List: %d\n", list_comparation);
 }
 
 void deleteAtBeggining()
@@ -396,6 +442,8 @@ void deleteAtBeggining()
 
     clock_t start_list, end_list, start_array, end_array;
     double cpu_time_used_list = 0, cpu_time_used_array = 0;
+    int array_comparation = 0;
+    int list_comparation = 0;
 
     // REMOVING FROM ARRAY
     start_array = clock();
@@ -412,6 +460,7 @@ void deleteAtBeggining()
             people[i].name = people[i + 1].name;
             people[i].rg = people[i + 1].rg;
         }
+        array_comparation++;
     }
     end_array = clock();
 
@@ -421,6 +470,7 @@ void deleteAtBeggining()
     header.first = temp->next;
     free(temp);
     end_list = clock();
+    list_comparation++;
 
     printf("\n\n\n|---------------------------------------------|\n");
     printf("| DELETED WITH SUCCESS");
@@ -430,12 +480,17 @@ void deleteAtBeggining()
 
     printf("\nTime taken to delete On Array: %f seconds\n", cpu_time_used_array);
     printf("\nTime taken to delete On Linked List: %f seconds\n", cpu_time_used_list);
+
+    printf("\nComparation on Array: %d\n", array_comparation);
+    printf("\nComparation on List: %d\n", list_comparation);
 }
 
 void deleteAtPosition(position)
 {
     // REMOVE FROM ARRAY
     int i;
+    int array_comparation = 0;
+    int list_comparation = 0;
 
     clock_t start_list, end_list, start_array, end_array;
     double cpu_time_used_list = 0, cpu_time_used_array = 0;
@@ -448,6 +503,8 @@ void deleteAtPosition(position)
             people[i].name = people[i + 1].name;
             people[i].rg = people[i + 1].rg;
         }
+        array_comparation++;
+
     }
     end_array = clock();
 
@@ -458,10 +515,12 @@ void deleteAtPosition(position)
     for (i = 0; i < (position - 1); i++)
     {
         helper = helper->next;
+        list_comparation;
     }
     for (i = 0; i < position; i++)
     {
         secondHelper = helper->next;
+        list_comparation;
     }
     helper->next = secondHelper->next;
     end_list = clock();
@@ -474,6 +533,9 @@ void deleteAtPosition(position)
 
     printf("\nTime taken to delete On Array: %f seconds\n", cpu_time_used_array);
     printf("\nTime taken to delete On Linked List: %f seconds\n", cpu_time_used_list);
+
+    printf("\nComparation on Array: %d\n", array_comparation);
+    printf("\nComparation on List: %d\n", list_comparation);
 }
 
 void searchByRg(char *searchRg)
@@ -481,6 +543,8 @@ void searchByRg(char *searchRg)
     int i;
     int n = 0;
     int comp;
+    int array_comparation = 0;
+    int list_comparation = 0;
     clock_t start_list, end_list, start_array, end_array;
     double cpu_time_used_list = 0, cpu_time_used_array = 0;
 
@@ -500,7 +564,9 @@ void searchByRg(char *searchRg)
                 printf("\n| Rg: %s", people[i].rg);
                 printf("\n| Position: %d", i);
                 printf("\n|---------------------------------------------|");
+                break;
             }
+            array_comparation++;
         }
         else
         {
@@ -524,8 +590,10 @@ void searchByRg(char *searchRg)
             printf("\n| Rg: %s", temp->rg);
             printf("\n| Position: %d", n);
             printf("\n|---------------------------------------------|");
+            break;
         }
         temp = temp->next;
+        list_comparation++;
         n++;
     }
     end_list = clock();
@@ -535,6 +603,9 @@ void searchByRg(char *searchRg)
 
     printf("\nTime taken to search On Array: %f seconds\n", cpu_time_used_array);
     printf("\nTime taken to search On Linked List: %f seconds\n", cpu_time_used_list);
+
+    printf("\nComparation on Array: %d\n", array_comparation);
+    printf("\nComparation on List: %d\n", list_comparation);
 }
 
 void WriteInFile()
